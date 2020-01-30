@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Shop</h2>
+@model ShopDbContext
+@foreach (Items item in Model.Items)
+{
+    <h3>@item.Name</h3>
+    <h3>@item.Description</h3>
+    <h3>@item.Quantity</h3>
+    <h3>@item.Price</h3>
+}
+

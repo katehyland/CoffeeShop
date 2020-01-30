@@ -1,0 +1,35 @@
+﻿@model Users 
+
+@{
+    ViewData["Title"] = "Registered";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Welcome, @Model.Username!
+    Thank you for registering!
+</h2>
+
+<h1>
+    Your User Information:
+</h1>
+
+<table>
+    <tr>
+        <th>Username:</th>
+    </tr>
+    <tr>
+        <td>@Model.Username</td>
+    </tr>
+    <tr>
+        <th>Email:</th>
+    </tr>
+    <tr>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <th>Phone:</th>
+    </tr>
+    <tr>
+        <td>@Model.Phone</td>
+    </tr>
+</table>

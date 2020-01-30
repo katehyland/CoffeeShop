@@ -15,21 +15,47 @@ namespace MVCCoffeeShop.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Registered(
+            Users user)
         {
-            ViewData["Message"] = "Your application description page.";
+          return View("Register", user);
+        }
 
+        public IActionResult Register()
+        {
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Shop()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult MakeNewUser(Users user)
+        {
+            // Use my context class to pull in my DataBase data
+            ShopDbContext db = new ShopDbContext();
+
+            // Insert 
+            db.Users.Add(user);
+            db.SaveChanges();
+
+            return Registered(user);
+        }
+
+        //public bool Validation()
+        //{
+        //    //password value
+        //    //confirm password value
+
+        //    if (password === confirmpassword)
+        //    {
+        //        return true;
+        //    }
+        //     return false;
+        //}
+
+        public IActionResult RegistrationView()
         {
             return View();
         }

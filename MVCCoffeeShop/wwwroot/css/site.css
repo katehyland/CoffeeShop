@@ -5,6 +5,28 @@ body {
     padding-bottom: 20px;
 }
 
+.registration-title {
+    
+}
+
+.home-page-coffee-image-1 {
+    max-height: 50%;
+    max-width: 50%;
+    position: center;
+}
+
+.registration-submit-button {
+    background-color: darkorchid;
+    color: black;
+    opacity: .9;
+    border-radius: 10px;
+    max-width: 50%;
+}
+
+.password-info {
+    font-size: 10px;
+    color:dimgrey;
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
