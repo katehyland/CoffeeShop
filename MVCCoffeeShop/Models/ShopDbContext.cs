@@ -16,6 +16,7 @@ namespace MVCCoffeeShop.Models
         }
 
         public virtual DbSet<Items> Items { get; set; }
+        public virtual DbSet<UserItems> UserItems { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -31,24 +32,48 @@ namespace MVCCoffeeShop.Models
         {
             modelBuilder.Entity<Items>(entity =>
             {
-                entity.HasKey(e => e.Name);
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50)
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(100);
 
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Price).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<UserItems>(entity =>
+            {
+                entity.HasKey(e => e.UserItemId);
+
+                entity.HasIndex(e => e.UserItemId)
+                    .HasName("UserID");
+
+                entity.Property(e => e.UserItemId).HasColumnName("UserItemID");
+
+                entity.Property(e => e.ItemId).HasColumnName("ItemID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Item)
+                    .WithMany(p => p.UserItems)
+                    .HasForeignKey(d => d.ItemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ItemID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserItems)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserID");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Email)
                     .IsRequired()

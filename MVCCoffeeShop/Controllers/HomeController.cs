@@ -18,7 +18,7 @@ namespace MVCCoffeeShop.Controllers
         public IActionResult Registered(
             Users user)
         {
-          return View("Register", user);
+          return View(user);
         }
 
         public IActionResult Register()
@@ -30,6 +30,46 @@ namespace MVCCoffeeShop.Controllers
         {
             return View();
         }
+
+        //method that uses tempData to store userLoggedIn, showBuyButton, 
+
+        public IActionResult LogIn(Users user, string userNameInput, string passwordInput) {
+
+
+            //make a new action that will search the DB for my result
+            // Use my context class to pull in my DataBase data
+                ShopDbContext db = new ShopDbContext();
+
+                // make an individual Person object to store my result in
+                Users foundResult = new Users();
+
+            // make a TempData object and set it to false - showButton, loggedIn, 
+            //create empty loggedInUser in tempData OR 
+                // this allows me to later set it to true if I find a match
+                TempData["loggedIn"] = false;
+                //Session["loggedInUser"] = null;
+
+            // i need to find my result in my DB
+            foreach (Users foundUser in db.Users)
+                {
+                // as i iterate through the collection, I want to find the correct result
+                if (foundUser.Username == userNameInput && foundUser.Password == passwordInput) {
+                        // if you find a match, assign that value to your temp Person object
+                        //here is where we could be assigning foundResult to our session
+                        foundResult = user;
+                    //Session["loggedInUser"] = user;
+
+                    // You found a match, set your TempData to true
+                    // this allows us to display certain HTML
+                    TempData["loggedIn"] = true;
+                    TempData.Keep("loggedIn");
+                    
+                    }
+                }
+                // pass the object with the data to the view to be displayed
+                return View(foundResult);
+            }
+        
 
         public IActionResult MakeNewUser(Users user)
         {
@@ -43,17 +83,42 @@ namespace MVCCoffeeShop.Controllers
             return Registered(user);
         }
 
-        //public bool Validation()
-        //{
-        //    //password value
-        //    //confirm password value
+        //method called from click of Buy button
+        public IActionResult AttemptTransaction(Items item, Users user)
+        { 
+            ShopDbContext db = new ShopDbContext();
+            //store user
 
-        //    if (password === confirmpassword)
-        //    {
-        //        return true;
-        //    }
-        //     return false;
-        //}
+            //store item they selected
+
+
+
+            // as i iterate through the collection, I want to find the correct result
+            if (user.Funds >= item.Price)
+            {
+                return TransactionSuccess(user, item);
+            }
+                return TransactionError(user, item);
+            }
+
+        public IActionResult TransactionSuccess(Users user, Items item) {
+            ShopDbContext db = new ShopDbContext();
+
+            //Create a public int originalFunds = loggedInUser.Funds
+            //public int userFunds = loggedInUser.funds;
+            //public int itemPrice = items.price;
+            //public int newBalance = (userFunds - itemPrice);
+            //public int ItemPrice = item1.Price
+            //public int NewFundBalance = originalFunds - ItemPrice
+
+            //DONT FORGET TO UPDATE THE DATABASE AND SAVECHANGES
+            //db.SaveChanges();
+            return View();
+        }
+
+        public IActionResult TransactionError(Users user, Items item) {
+            return View();
+        }
 
         public IActionResult RegistrationView()
         {

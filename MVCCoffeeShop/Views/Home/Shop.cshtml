@@ -12,5 +12,11 @@
     <h3>@item.Description</h3>
     <h3>@item.Quantity</h3>
     <h3>@item.Price</h3>
-}
 
+    //add onClick="AttemptTransaction()"
+
+    @if ((bool)TempData["loggedIn"])
+    {
+        <button onclick="attemptTransaction()"> Buy </button>
+    }
+}
